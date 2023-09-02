@@ -1,0 +1,92 @@
+<figure *ngIf="!(individualsPage || organizationsPage)" class="text-center">
+  <!-- Button trigger modal -->
+  <h4>Help the Rescue community grow, <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">invite your friends</a></h4>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Invite your friends</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="inviteForm" (ngSubmit)="invite()">
+            <div class="form-group">
+              <input type="text" [formControlName]="'email'" class="form-control" placeholder="Email" required="true"/>
+            </div>
+            <div *ngIf="sent">
+              <p>Invitation sent!</p>
+
+            </div>
+          </form >
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" (click)="invite()">Send Invitation</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <hr>
+  <h3>Individuals <a class="btn btn-primary" href="community/individuals">See All</a></h3>
+  <div class="app flex-row align-items-center">
+    <div class="container">
+      <div class="card-deck row">
+        <div class="card col-md-4" *ngFor="let individual of individuals | async">
+          <div class="card-block">
+            <img src="{{individual.profileImage}}" alt="" width="250px"/>
+            <br>
+            <a href="user/{{individual.id}}">{{individual.name}} {{individual.lastName}}</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <h3>Animal Welfare Organizations <a class="btn btn-primary" href="community/organizations">See All</a></h3>
+  <div class="app flex-row align-items-center">
+    <div class="container">
+      <div class="card-deck row">
+        <div class="card col-md-4" *ngFor="let individual of organizations | async">
+          <div class="card-block">
+            <img src="{{individual.profileImage}}" alt="" width="250px"/>
+          </div>
+          <a href="user/{{individual.id}}">{{individual.name}} {{individual.lastName}}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</figure>
+
+
+<figure *ngIf="individualsPage || organizationsPage" class="text-center">
+  <h3><a class="btn btn-secondary" href="/community">Back</a> {{header}}</h3>
+  <br>
+  <div class="container">
+    <form [formGroup]="searchForm" (ngSubmit)="search()">
+      <div class="form-group">
+        <input type="text" [formControlName]="'searchInput'" class="form-control" placeholder="Search..." required="true"/>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-outline-primary">Search</button>
+      </div>
+    </form >
+  </div>
+  <br>
+  <div class="app flex-row align-items-center">
+    <div class="container">
+      <div class="card-deck row">
+        <div class="card col-md-3" *ngFor="let users of all | async">
+          <div class="card-block">
+            <img src="{{users.profileImage}}" alt="" width="250px"/>
+            <br>
+            <a href="user/{{users.id}}">{{users.name}} {{users.lastName}}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</figure>

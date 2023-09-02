@@ -1,0 +1,61 @@
+<div class="filter-posts">
+  <div class="container">
+    <form [formGroup]="criteriaForm" (ngSubmit)="filter()">
+      <h3 class="filter-criteria">Filter Posts</h3>
+      <div>
+        <label class="sortBy">Sort By:&ensp;</label>
+        <select [formControlName]="'orderBy'">
+          <option [ngValue]="'date'">Date (recent first)</option>
+          <option [ngValue]="'distance'">Distance (nearest first)</option>
+        </select>
+      </div>
+      <br>
+      <label class="filter-postType">Show only:&ensp;</label>
+      <div class="form-check-inline" *ngFor="let postType of postTypes; let i=index">
+        <label>
+          <input type="checkbox" [value]="postType.name" (change)="onCbChange($event)" />
+          {{postType.name}}
+        </label>
+      </div>
+      <br>
+      <hr>
+      <label class="filter-animalType">Posts about:&ensp;</label>
+      <div class="form-check-inline" *ngFor="let animalType of animalTypes; let i=index">
+        <label>
+          <input type="radio" [formControlName]="'animalType'" [value]="animalType.name" checked/>
+          {{animalType.name}}
+        </label>
+      </div>
+      <br>
+      <br>
+      <label class="filter-size">Size:&ensp;</label>
+      <div class="form-check-inline" *ngFor="let size of sizes; let i=index">
+        <label>
+          <input type="radio" [formControlName]="'size'" [value]="size.name" checked/>
+          {{size.name}}
+        </label>
+      </div>
+      <br>
+      <br>
+      <label class="filter-gender">Gender:&ensp;</label>
+      <div class="form-check-inline" *ngFor="let gender of genders; let i=index">
+        <label>
+          <input type="radio" [formControlName]="'gender'" [value]="gender.name" checked/>
+          {{gender.name}}
+        </label>
+      </div>
+      <br>
+      <br>
+      <div>
+        <label class="post-breed">Age:&ensp;</label>
+        <select [formControlName]="'age'">
+          <option *ngFor="let age of ages" [ngValue]="age.name">{{age.name}}</option>
+        </select>
+      </div>
+      <hr>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">Update</button>
+      </div>
+    </form >
+  </div>
+</div>

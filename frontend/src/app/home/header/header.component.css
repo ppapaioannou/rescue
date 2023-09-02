@@ -1,0 +1,39 @@
+.header{
+  padding: 5px 20px;
+  background: royalblue;
+}
+
+.title{
+  color: aliceblue;
+  text-decoration: none;
+}
+
+.login,.register{
+  float: right;
+  text-decoration: none;
+  color: aliceblue;
+  padding-top: 10px;
+}
+
+.logout,.new-post{
+  float: right;
+  text-decoration: none;
+  color: aliceblue;
+  padding-top: 10px;
+  margin-left: 20px;
+}
+
+.logout:hover, .new-post:hover, .filter:hover, .account:hover{
+  text-decoration: underline;
+}
+
+.filter{
+  float: left;
+  color: aliceblue;
+  padding-top: 10px;
+}
+
+.account{
+  float: right;
+  color: aliceblue;
+}

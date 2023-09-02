@@ -1,0 +1,141 @@
+<div *ngIf="post.postType != 'event'" class="content">
+  <div class="container">
+    <div class="row">
+      <div class="col-md">
+        <h1 class="blog-title">{{post.title}}</h1>
+        <p> by <a href="/user/{{post.userId}}"> {{post.userName}}</a></p>
+        <p>posted on: {{post.createdAt}}</p>
+        <div *ngIf="post.thumbnail != null" id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <figure class="text-center">
+              <ul class="carousel-item active">
+                <li class="list-group-item">
+                  <img src="{{post.thumbnail}}" alt="thumbnail" height="400px"/>
+                </li>
+              </ul>
+              <ul class="carousel-item" *ngFor="let image of postImages | async">
+                <li class="list-group-item">
+                  <img src="{{image.url}}" alt="{{image.name}}" height="400px" />
+                </li>
+              </ul>
+            </figure>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="false"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+          <br>
+        </div>
+        <div *ngIf="post.postType=='missing'">
+          <h5>Location: {{post.address}}</h5>
+          <h5>Missing Date: {{post.date}}</h5>
+          <h6>Breed: {{post.breed}}</h6>
+          <h6>Gender: {{post.gender}}</h6>
+          <h6>Colors: {{post.colors}}</h6>
+          <h6>Size: {{post.size}}</h6>
+          <h6>Microchip Number: {{post.microchipNumber}}</h6>
+        </div>
+        <div *ngIf="post.postType=='adoption'">
+          <h5>Location: {{post.address}}</h5>
+          <h6>Breed: {{post.breed}}</h6>
+          <h6>Age: {{post.age}}</h6>
+          <h6>Gender: {{post.gender}}</h6>
+          <h6>Colors: {{post.colors}}</h6>
+          <h6>Size: {{post.size}}</h6>
+          <h6>Neutered: {{post.neutered}}</h6>
+          <h6>Suitable for living with children: {{post.goodWithChildren}}</h6>
+          <h6>Suitable for coexistence with other animals: {{post.goodWithAnimals}}</h6>
+        </div>
+        <div *ngIf="post.postType=='stray'">
+          <h5>Location: {{post.address}}</h5>
+          <h5>Spotted On: {{post.date}}</h5>
+          <h5>Actions Taken: {{post.actionTaken}}</h5>
+          <h6>Breed: {{post.breed}}</h6>
+          <h6>Gender: {{post.gender}}</h6>
+          <h6>Colors: {{post.colors}}</h6>
+          <h6>Size: {{post.size}}</h6>
+        </div>
+        <hr>
+        <div class="breaking">
+          <p [innerHTML]="post.body"></p>
+        </div>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <a type="button" class="btn btn-primary" href="/discussion/{{post.id}}">
+            Discussion <span class="badge badge-light">{{post.numberOfComments}}</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <a href="" class="back btn btn-secondary">Back</a>
+  </div>
+</div>
+
+<div *ngIf="post.postType == 'event'" class="content">
+  <div class="container">
+    <div class="main-div">
+      <img class="event-image" src="{{post.thumbnail}}" alt="thumbnail"/>
+    </div>
+    <div class="row">
+      <div class="col-md">
+        <h1 class="blog-title">{{post.title}}</h1>
+        <p> by <a href="/user/{{post.userId}}"> {{post.userName}}</a></p>
+        <p>posted on: {{post.createdAt}}</p>
+        <div *ngIf="authService.isAuthenticated()" class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <button *ngIf="isAttending" class="contact btn btn-danger" (click)="attendEvent()">Will Not Attend</button>
+          <button *ngIf="!isAttending" href="#" class="contact btn btn-success" (click)="attendEvent()">Will Attend</button>
+        </div>
+        <br>
+        <ul class="nav nav-pills nav-fill" id="pills-tab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="pills-event-info-tab" data-bs-toggle="pill" data-bs-target="#pills-event-info"
+                    type="button" role="tab" aria-controls="pills-event-info" aria-selected="true">Event Information</button>
+          </li>
+          <li *ngIf="authService.isAuthenticated()" class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-event-attendees-tab" data-bs-toggle="pill" data-bs-target="#pills-event-attendees"
+                    type="button" role="tab" aria-controls="pills-event-attendees" aria-selected="false">See who is attending</button>
+          </li>
+        </ul>
+        <br>
+        <div class="tab-content" id="pills-tabContent">
+          <div class="tab-pane fade show active" id="pills-event-info" role="tabpanel" aria-labelledby="pills-event-info-tab" tabindex="0">
+            <h5>Location: {{post.address}}</h5>
+            <h5>Date: {{post.date}}</h5>
+            <h5>Time: {{post.time}}</h5>
+            <hr>
+            <div class="breaking">
+              <p [innerHTML]="post.body"></p>
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+              <a type="button" class="btn btn-primary" href="/discussion/{{post.id}}">
+                Discussion <span class="badge badge-light">{{post.numberOfComments}}</span>
+              </a>
+            </div>
+          </div>
+          <div *ngIf="authService.isAuthenticated()" class="tab-pane fade" id="pills-event-attendees" role="tabpanel" aria-labelledby="pills-event-attendees-tab" tabindex="1">
+            <h5>{{numberOfAttendees}} people are attending</h5>
+            <h4 *ngIf="isAttending" class="attending">Including you!</h4>
+            <div class="app flex-row align-items-center">
+              <div class="container">
+                <div class="card-deck row">
+                  <div class="card col-md-4" *ngFor="let user of post.eventAttendees">
+                    <div class="card-block">
+                      <img src="{{user.profileImage}}" alt="" width="250px"/>
+                      <br>
+                      <a href="user/{{user.id}}">{{user.name}} {{user.lastName}}</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a href="" class="back btn btn-secondary">Back</a>
+  </div>
+</div>
+
